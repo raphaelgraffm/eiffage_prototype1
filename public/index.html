@@ -1,0 +1,152 @@
+<html>
+  <head>
+    <title>Welcome to Feathers</title>
+    <style>
+    body {
+      background-color: #232323;
+    }
+    .button_container {
+      margin: 0; padding: 0;
+      position: absolute;
+      top: 0; left: 0;
+      display: flex;
+      width: 100vw;
+      height: 100vh;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+    .button_wrapper {
+      flex: 2;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+    .diode_wrapper {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+    .bouton {
+	-moz-border-radius:40px;
+	-webkit-border-radius:40px;
+	border-radius:40px;
+	display:inline-block;
+	cursor:pointer;
+	color:#ffffff;
+	font-family:Arial;
+	font-size:28px;
+	padding:32px 53px;
+	text-decoration:none;
+}
+
+.bouton:active {
+	position:relative;
+	top:1px;
+}
+
+#diode {
+	background-color:#CAD3CE;
+	-moz-border-radius:24px;
+	-webkit-border-radius:24px;
+	border-radius:24px;
+	display:inline-block;
+	cursor:pointer;
+	color:#ffffff;
+	font-family:Arial;
+	font-size:17px;
+	padding:16px 16px;
+	text-decoration:none;
+}
+
+#diode.allumee {
+  background-color:#76FF69;
+}
+
+.livraison {
+  -moz-box-shadow: 1px 6px 0px 0px #2E9435;
+  -webkit-box-shadow: 1px 6px 0px 0px #2E9435;
+  box-shadow: 1px 6px 0px 0px #2E9435;
+  background-color:#3EC646;
+  border:1px solid #3EC646;
+}
+
+.livraison:hover {
+  background-color:#45DC4E;
+}
+
+.betonnage {
+  -moz-box-shadow: 1px 6px 0px 0px #1C48B0;
+  -webkit-box-shadow: 1px 6px 0px 0px #1C48B0;
+  box-shadow: 1px 6px 0px 0px #1C48B0;
+  background-color:#2662ED;
+  border:1px solid #2662ED;
+}
+
+.betonnage:hover {
+  background-color:#3978FF;
+}
+
+.probleme {
+  -moz-box-shadow: 1px 6px 0px 0px #8a2a21;
+  -webkit-box-shadow: 1px 6px 0px 0px #8a2a21;
+  box-shadow: 1px 6px 0px 0px #8a2a21;
+  background-color:#c62d1f;
+  border:1px solid #d02718;
+}
+
+.probleme:hover {
+  background-color:#f24437;
+}
+    </style>
+  </head>
+  <body>
+    <div class="button_container">
+      <div class="diode_wrapper">
+        <div id="diode"></div>
+      </div>
+      <div class="button_wrapper">
+        <a href="#" class="bouton livraison">Livraison</a>
+      </div>
+      <div class="button_wrapper">
+        <a href="#" class="bouton betonnage">Bétonnage</a>
+      </div>
+      <div class="button_wrapper">
+        <a href="#" class="bouton probleme">Problème</a>
+      </div>
+    </div>
+    <script
+      src="https://code.jquery.com/jquery-3.1.1.min.js"
+      integrity="sha256-/SIrNqv8h6QGKDuNoLGA4iret+kyesCkHGzVUUV0shc="
+      crossorigin="anonymous">
+    </script>
+    <script>
+      $(document).ready(function() {
+        $(".bouton").on("click", function () {
+          var nom = this.text;
+          $diode = $("#diode");
+          $diode.addClass("allumee");
+          var enleve_class = function () {
+            $diode.removeClass("allumee")
+          }
+          setTimeout(enleve_class, 300);
+          $.ajax({
+            url: "/api/historique",
+            method: "post",
+            data: {type: nom, date: new Date()},
+            error: function(){
+              // will fire when timeout is reached
+            },
+            success: function(){
+              //do something
+            },
+            timeout: 3000
+          });
+        });
+      });
+    </script>
+  </body>
+</html>
